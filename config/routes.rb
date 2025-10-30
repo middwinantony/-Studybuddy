@@ -1,14 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: "topics#home"
-<<<<<<< HEAD
 
   resources :topics
   resources :chats, only: :show do
     resources :messages, only: :create
   end
-=======
->>>>>>> first
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
