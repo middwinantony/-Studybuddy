@@ -1,0 +1,31 @@
+<h1>Add a New Topic</h1>
+
+<%= form_with(model: @topic, local: true) do |form| %>
+  <% if @topic.errors.any? %>
+    <div class="alert alert-danger">
+      <h2><%= pluralize(@topic.errors.count, "error") %> prevented this topic from being saved:</h2>
+      <ul>
+        <% @topic.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name, "Topic Name" %><br>
+    <%= form.text_field :name, placeholder: "e.g. Geography, Math, History" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, "Short Description" %><br>
+    <%= form.text_area :description, placeholder: "Describe this topic briefly..." %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Create Topic", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<br>
+<%= link_to "Back to Topics", topics_path, class: "btn btn-secondary" %>
