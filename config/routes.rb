@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  root to: "topics#home"
+  # root to: "topics#home"
 
   resources :topics
   resources :chats, only: :show do

@@ -1,1 +1,17 @@
-<h1> Your Topics </h1>
+<h1>CHOOSE YOUR TOPIC</h1>
+<ul>
+<% @topics.each do |topic| %>
+<li>
+  <%= topic.name %>
+  <p><%= topic.description %></p>
+</li>
+<% end %>
+</ul>
+
+<% if user_signed_in? %>
+  <p>Welcome back!</p>
+<% else %>
+  <p>Please sign in.</p>
+<% end %>
+
+<%= link_to "Add Topic", new_topic_path, class: "btn btn-primary" %>
