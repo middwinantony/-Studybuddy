@@ -1,11 +1,11 @@
-<h1>CHOOSE YOUR TOPIC PUNK</h1>
+<h1>CHOOSE YOUR TOPIC</h1>
 <ul>
-<%= @topics.each do |topic| %>
+<% @topics.each do |topic| %>
 <li>
   <%= topic.name %>
   <p><%= topic.description %></p>
 </li>
-<<% end %>>
+<% end %>
 </ul>
 
 <% if user_signed_in? %>
