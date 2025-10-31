@@ -4,6 +4,7 @@
 <li>
   <%= topic.name %>
   <p><%= topic.description %></p>
+  <%= link_to "Select Topic", topic_path(topic), class: "btn btn-primary" %>
 </li>
 <% end %>
 </ul>

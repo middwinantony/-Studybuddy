@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # root to: "topics#home"
 
   resources :topics
-  resources :chats, only: :show do
+  resources :chats, only: [:show, :new, :create] do
     resources :messages, only: :create
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

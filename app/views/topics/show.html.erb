@@ -1,0 +1,5 @@
+<h1><%= @topic.name %></h1>
+
+<p>Let's begin your quiz on <%= @topic.name %></p>
+
+<%= link_to "Start", new_chat_path(topic_id: @topic.id), class: "btn btn-success" %>
