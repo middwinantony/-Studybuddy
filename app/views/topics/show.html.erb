@@ -1,3 +1,6 @@
+<% if @topic.image&.file&.attached? %>
+  <%= image_tag @topic.image.file, width: 300 %>
+<% end %>
 <h1><%= @topic.name %></h1>
 
 <p>Let's begin your quiz on <%= @topic.name %></p>

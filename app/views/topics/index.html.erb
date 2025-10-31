@@ -1,13 +1,15 @@
-<h1>CHOOSE YOUR TOPIC</h1>
-<ul>
 <% @topics.each do |topic| %>
 <li>
   <%= topic.name %>
   <p><%= topic.description %></p>
   <%= link_to "Select Topic", topic_path(topic), class: "btn btn-primary" %>
+  <% if topic.image_filename.present? %>
+      <%= image_tag topic.image_filename, alt: topic.name %>
+    <% end %>
 </li>
+
 <% end %>
-</ul>
+
 
 <% if user_signed_in? %>
   <p>Welcome back!</p>
