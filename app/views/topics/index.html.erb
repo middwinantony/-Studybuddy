@@ -1,20 +1,20 @@
+<h1>CHOOSE YOUR TOPIC</h1>
+<ul>
 <% @topics.each do |topic| %>
-<li>
-  <%= topic.name %>
-  <p><%= topic.description %></p>
-  <%= link_to "Select Topic", topic_path(topic), class: "btn btn-primary" %>
-  <% if topic.image_filename.present? %>
-      <%= image_tag topic.image_filename, alt: topic.name %>
-    <% end %>
-</li>
-
+  <li>
+    <%= topic.name %>
+    <p><%= topic.description %></p>
+  </li>
+  <%= link_to "Edit Topic", edit_topic_path(topic), class: "btn btn-primary" %>
 <% end %>
-
+</ul>
 
 <% if user_signed_in? %>
   <p>Welcome back!</p>
 <% else %>
   <p>Please sign in.</p>
 <% end %>
+
+
 
 <%= link_to "Add Topic", new_topic_path, class: "btn btn-primary" %>
