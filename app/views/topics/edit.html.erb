@@ -1,0 +1,37 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+
+      <h2 class="mb-4 text-center">Edit Topic</h2>
+
+      <%= form_with(model: @topic, local: true, class: "needs-validation") do |form| %>
+        <% if @topic.errors.any? %>
+          <div class="alert alert-danger">
+            <h4 class="alert-heading">Please fix the following errors:</h4>
+            <ul class="mb-0">
+              <% @topic.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="mb-3">
+          <%= form.label :title, class: "form-label" %>
+          <%= form.text_field :title, class: "form-control", placeholder: "Enter topic title" %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :description, class: "form-label" %>
+          <%= form.text_area :description, class: "form-control", rows: 6, placeholder: "Write a short description of the topic..." %>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <%= link_to "Back", topics_path, class: "btn btn-outline-secondary" %>
+          <%= form.submit "Update Topic", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>

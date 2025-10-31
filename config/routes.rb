@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users
-  root to: "topics#home"
+  # root to: "topics#home"
 
   resources :topics
-  resources :chats, only: :show do
+  resources :chats, only: [:show, :new, :create] do
     resources :messages, only: :create
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -15,6 +15,4 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-
-
 end
