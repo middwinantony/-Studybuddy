@@ -1,0 +1,3 @@
+<% if @topic.image&.file&.attached? %>
+  <%= image_tag @topic.image.file, width: 300 %>
+<% end %>
