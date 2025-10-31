@@ -1,20 +1,29 @@
-<% @topics.each do |topic| %>
-<li>
-  <%= topic.name %>
-  <p><%= topic.description %></p>
-  <%= link_to "Select Topic", topic_path(topic), class: "btn btn-primary" %>
-  <% if topic.image_filename.present? %>
-      <%= image_tag topic.image_filename, alt: topic.name %>
-    <% end %>
-</li>
-
-<% end %>
-
-
 <% if user_signed_in? %>
   <p>Welcome back!</p>
 <% else %>
   <p>Please sign in.</p>
 <% end %>
 
-<%= link_to "Add Topic", new_topic_path, class: "btn btn-primary" %>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <% @topics.first(3).each do |topic| %>
+      <div class="col-md-4 text-center mb-4">
+        <% if topic.image_filename.present? %>
+          <%= image_tag topic.image_filename, alt: topic.name, class: "img-fluid rounded", style: "height: 250px; width: 100%; object-fit: cover;" %>
+
+        <% end %>
+        <h5 class="mt-2"><%= topic.name %></h5>
+        <p><%= topic.description %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="text-center mt-4">
+  <%= link_to "Add Topic", new_topic_path, class: "btn btn-primary" %>
+</div>

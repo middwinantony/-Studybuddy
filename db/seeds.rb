@@ -17,9 +17,9 @@ user1 = User.create!(email: "middwin99@gmail.com", password: "123456")
 user2 = User.create!(email: "paul.mikhailau@gmail.com", password: "234567")
 user3 = User.create!(email: "florimelle@gmail.com", password: "345678")
 
-math = Topic.create!(name: "Math", description: "Basic arithmetic and algebra questions")
-geo = Topic.create!(name: "Geography", description: "World geography and capitals")
-history = Topic.create!(name: "History", description: "World history and events")
+math = Topic.create!(name: "Math", description: "Basic arithmetic and algebra questions", image_filename: "math.jpg")
+geo = Topic.create!(name: "Geography", description: "World geography and capitals", image_filename: "english.jpg")
+history = Topic.create!(name: "History", description: "World history and events", image_filename: "history.jpg")
 
 chat1 = Chat.create!(user: user1, topic: math)
 
