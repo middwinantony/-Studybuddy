@@ -1,13 +1,13 @@
 <% @topics.each do |topic| %>
-<li>
-  <%= topic.name %>
-  <p><%= topic.description %></p>
-  <%= link_to "Select Topic", topic_path(topic), class: "btn btn-primary" %>
-  <% if topic.image_filename.present? %>
-      <%= image_tag topic.image_filename, alt: topic.name %>
+  <li>
+    <%= topic.name %>
+    <p><%= topic.description %></p>
+    <%= link_to "Select Topic", topic_path(topic), class: "btn btn-primary" %>
+    <% if topic.image_filename.present? %>
+        <%= image_tag topic.image_filename, alt: topic.name %>
     <% end %>
-</li>
-
+  </li>
+  <%= link_to "Edit", edit_topic_path(topic), class: "btn btn-secondary" %>
 <% end %>
 
 
@@ -16,5 +16,4 @@
 <% else %>
   <p>Please sign in.</p>
 <% end %>
-
 <%= link_to "Add Topic", new_topic_path, class: "btn btn-primary" %>
