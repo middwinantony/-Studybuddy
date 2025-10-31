@@ -18,6 +18,12 @@ class TopicsController < ApplicationController
     end
   end
 
+  def update
+    @topic = Topic.find(params[:id])
+    @topic.update(movie_params)
+    redirect_to movie_path(@movie)
+  end
+
   def destroy
     @topic = Topic.find(params[:id])
     @topic.destroy
