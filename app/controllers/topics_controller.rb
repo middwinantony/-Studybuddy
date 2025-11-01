@@ -9,6 +9,15 @@ class TopicsController < ApplicationController
     @topic = Topic.find(params[:id])
   end
 
+  def start_quiz
+    @topic = Topic.find(params[:id])
+    chat = RubyLLM.chat
+    prompt = "Generate a single, simple #{ @topic.name } question suitable for a beginner. Only provide the question, no answers or explanations."
+    response = chat.ask(prompt)
+    @question_text = response.content
+    render "quiz"
+  end
+
   def new
     @topic = Topic.new
   end
@@ -56,6 +65,6 @@ class TopicsController < ApplicationController
   private
 
   def topic_params
-    params.require(:topic).permit(:name, :description, :image_filename)
+    params.require(:topic).permit(:name, :description, :image)
   end
 end
