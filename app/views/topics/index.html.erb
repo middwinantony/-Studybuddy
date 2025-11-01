@@ -1,8 +1,13 @@
+<h1>CHOOSE YOUR TOPIC</h1>
+
 <% if user_signed_in? %>
   <p>Welcome back!</p>
 <% else %>
   <p>Please sign in.</p>
 <% end %>
+
+<%= link_to "Add Topic", new_topic_path, class: "btn btn-primary" %>
+<%= link_to "Edit Topic", edit_topic_path(topic), class: "btn btn-primary" %>
 
 <div class="container mt-4">
   <div class="row justify-content-center">
@@ -18,11 +23,6 @@
     <% end %>
   </div>
 </div>
-
-
-
-
-
 
 <div class="text-center mt-4">
   <%= link_to "Add Topic", new_topic_path, class: "btn btn-primary" %>
