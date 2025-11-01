@@ -71,7 +71,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_31_003239) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "image_id"
     t.string "image_filename"
+    t.index ["image_id"], name: "index_topics_on_image_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -93,4 +95,5 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_31_003239) do
   add_foreign_key "chats", "topics"
   add_foreign_key "chats", "users"
   add_foreign_key "messages", "chats"
+  add_foreign_key "topics", "images"
 end
