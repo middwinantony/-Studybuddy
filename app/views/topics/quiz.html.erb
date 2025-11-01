@@ -1,0 +1,12 @@
+<div class="container mt-5 text-center">
+  <h2 class="display-6 fw-bold mb-4">Quiz on <%= @topic.name %></h2>
+
+  <div class="card p-4 shadow-sm mb-4">
+    <p class="lead"><strong>Question:</strong></p>
+    <p class="fs-5"><%= @question_text %></p>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to "Back to Topics", topics_path, class: "btn btn-secondary btn-lg px-4 py-2 shadow-sm" %>
+  </div>
+</div>

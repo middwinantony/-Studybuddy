@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   devise_for :users
   # root to: "topics#home"
 
-  resources :topics
+  resources :topics do
+    member do
+      get :start_quiz
+    end
+  end
   resources :chats, only: [:show, :new, :create] do
     resources :messages, only: :create
   end

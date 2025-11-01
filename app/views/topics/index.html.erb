@@ -1,52 +1,47 @@
-<h1>CHOOSE YOUR TOPIC</h1>
+<div class="text-center my-5">
+  <h1 class="display-4 fw-bold text-primary mb-3" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+    CHOOSE YOUR TOPIC
+  </h1>
 
-<% if user_signed_in? %>
-  <p>Welcome back!</p>
-<% else %>
-  <p>Please sign in.</p>
-<% end %>
+  <% if user_signed_in? %>
+    <p class="text-center">Welcome back!</p>
+  <% else %>
+    <p class="text-center">Please sign in.</p>
+  <% end %>
 
-<%= link_to "Add Topic", new_topic_path, class: "btn btn-primary" %>
-
-
-<div class="container mt-4">
-  <div class="row justify-content-center">
-    <% @topics.each do |topic| %>
-      <div class="col-md-4 text-center mb-4">
-<<<<<<< HEAD
-        <%= link_to topic_path(topic) do %>
-          <%# <%= image_tag topic.image_filename, %>
-            <%# alt: topic.name, %>
-            <%# class: "img-fluid rounded clickable-image", %>
-            <%# style: "height: 250px; width: 100%; object-fit: cover;" %>
-=======
-        <% if topic.image_filename.present? %>
-          <div class="position-relative">
-            <%= image_tag topic.image_filename, alt: topic.name, class: "img-fluid rounded", style: "height: 250px; width: 100%; object-fit: cover;" %>
-
-            <!-- Icon stack in top-right corner -->
-            <div class="position-absolute top-0 end-0 d-flex flex-column align-items-end p-2 gap-1">
-              <%= link_to edit_topic_path(topic) do %>
-                <%= image_tag "edit.png", alt: "Edit", size: "32x32", class: "img-fluid border border-black rounded-circle" %>
+  <div class="container mt-4">
+    <div class="row justify-content-center">
+      <% @topics.each do |topic| %>
+        <div class="col-md-4 text-center mb-4">
+          <% if topic.image.attached? %>
+            <div class="position-relative">
+              <%= link_to topic_path(topic) do %>
+                <%= image_tag topic.image, alt: topic.name, class: "img-fluid rounded", style: "height: 250px; width: 100%; object-fit: cover;" %>
               <% end %>
 
-              <%= link_to topic_path(topic), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } do %>
-                <%= image_tag "delete.png", alt: "Delete", size: "32x32", class: "img-fluid border border-black rounded-circle" %>
-              <% end %>
+              <!-- Edit/Delete icons in top-right corner -->
+              <div class="position-absolute top-0 end-0 d-flex flex-column align-items-end p-2 gap-1">
+                <%= link_to edit_topic_path(topic) do %>
+                  <%= image_tag "edit.png", alt: "Edit", size: "32x32", class: "img-fluid border border-black rounded-circle" %>
+                <% end %>
 
+                <%= link_to topic_path(topic), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } do %>
+                  <%= image_tag "delete.png", alt: "Delete", size: "32x32", class: "img-fluid border border-black rounded-circle" %>
+                <% end %>
+              </div>
             </div>
-          </div>
->>>>>>> master
-        <% end %>
+          <% end %>
 
-        <h5 class="mt-2"><%= topic.name %></h5>
-        <p><%= topic.description %></p>
-        <%= link_to "Edit Topic", edit_topic_path(topic), class: "btn btn-primary" %>
-        <%= link_to "Delete Topic", topic_path(topic),
-                    data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this topic?" },
-                    class: "btn btn-sm btn-danger" %>
-      </div>
+          <h5 class="mt-2"><%= topic.name %></h5>
+          <p><%= topic.description %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="text-center mb-4">
+    <%= link_to new_topic_path, class: "btn btn-gradient btn-lg px-5 py-3 shadow-lg text-grey fw-bold" do %>
+      <i class="bi bi-plus-circle me-2"></i> Add Topic
     <% end %>
-
   </div>
 </div>

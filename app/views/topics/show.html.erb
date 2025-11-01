@@ -1,13 +1,21 @@
 <div class="container mt-5 text-center">
-  <% if @topic.image_filename.present? %>
-    <%= image_tag @topic.image_filename, class: "img-fluid rounded shadow-lg mb-4", style: "max-width: 400px;" %>
+  <% if @topic.image.attached? %>
+    <%= image_tag @topic.image, class: "img-fluid rounded shadow-lg mb-4", style: "max-width: 400px;" %>
   <% end %>
 
   <h1 class="display-5 fw-bold mb-3"><%= @topic.name %></h1>
+
+  <% if @topic.description.present? %>
+    <p class="lead text-muted mb-4">
+      <%= @topic.description %>
+    </p>
+  <% end %>
 
   <p class="lead text-muted mb-4">
     Let's begin your quiz on <strong><%= @topic.name %></strong>.
   </p>
 
-  <%= link_to "Start Quiz", new_chat_path(topic_id: @topic.id), class: "btn btn-success btn-lg px-4 py-2 shadow-sm" %>
+  <%= link_to start_quiz_topic_path(@topic), class: "btn btn-success btn-lg px-4 py-2 shadow-sm text-white" do %>
+    <i class="bi bi-lightning-fill me-2"></i> Start Quiz
+  <% end %>
 </div>
