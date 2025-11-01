@@ -1,8 +1,13 @@
-<% if @topic.image&.file&.attached? %>
-  <%= image_tag @topic.image.file, width: 300 %>
-<% end %>
-<h1><%= @topic.name %></h1>
+<div class="container mt-5 text-center">
+  <% if @topic.image_filename.present? %>
+    <%= image_tag @topic.image_filename, class: "img-fluid rounded shadow-lg mb-4", style: "max-width: 400px;" %>
+  <% end %>
 
-<p>Let's begin your quiz on <%= @topic.name %></p>
+  <h1 class="display-5 fw-bold mb-3"><%= @topic.name %></h1>
 
-<%= link_to "Start", new_chat_path(topic_id: @topic.id), class: "btn btn-success" %>
+  <p class="lead text-muted mb-4">
+    Let's begin your quiz on <strong><%= @topic.name %></strong>.
+  </p>
+
+  <%= link_to "Start Quiz", new_chat_path(topic_id: @topic.id), class: "btn btn-success btn-lg px-4 py-2 shadow-sm" %>
+</div>
