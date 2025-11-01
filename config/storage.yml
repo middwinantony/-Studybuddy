@@ -34,6 +34,7 @@ local:
 #   mirrors: [ amazon, google, microsoft ]
 
 # config/storage.yml
+
 cloudinary:
   service: Cloudinary
   cloud_name: <%= ENV["CLOUDINARY_CLOUD_NAME"] %>
