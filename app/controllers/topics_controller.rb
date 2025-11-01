@@ -35,7 +35,7 @@ class TopicsController < ApplicationController
   def destroy
     @topic = Topic.find(params[:id])
     @topic.destroy
-    redirect_to topic_path, status: :see_other
+    redirect_to topics_path, status: :see_other
   end
   # def edit
   #   @topic = Topic.find(params[:id])
