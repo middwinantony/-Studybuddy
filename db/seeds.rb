@@ -20,6 +20,7 @@ user3 = User.create!(email: "florimelle@gmail.com", password: "345678")
 math = Topic.create!(name: "Math", description: "Basic arithmetic and algebra questions", image_filename: "math.jpg")
 geo = Topic.create!(name: "Geography", description: "World geography and capitals", image_filename: "english.jpg")
 history = Topic.create!(name: "History", description: "World history and events", image_filename: "history.jpg")
+english = Topic.create!(name: "English", description: "English words and grammar", image_filename: "english.jpg")
 
 chat1 = Chat.create!(user: user1, topic: math)
 

@@ -1,31 +1,24 @@
 <h1>CHOOSE YOUR TOPIC</h1>
 
-<div class="topics-container">
-  <% @topics.each do |topic| %>
-    <div class="topic-card">
-      <h2><%= topic.name %></h2>
-      <p><%= topic.description %></p>
-      <div class="topic-actions">
-        <%= link_to "Select Topic", topic_path(topic), class: "btn btn-select" %>
-        <%= link_to "Edit", edit_topic_path(topic), class: "btn btn-edit" %>
-      </div>
-    </div>
-  <% end %>
-</div>
-
-<%= link_to "Add Topic", new_topic_path, class: "btn btn-primary" %>
-<%= link_to "Edit Topic", edit_topic_path(topic), class: "btn btn-primary" %>
+<% if user_signed_in? %>
+  <p>Welcome back!</p>
+<% else %>
+  <p>Please sign in.</p>
+<% end %>
 
 <div class="container mt-4">
   <div class="row justify-content-center">
-    <% @topics.first(3).each do |topic| %>
+    <% @topics.first(4).each do |topic| %>
       <div class="col-md-4 text-center mb-4">
-        <% if topic.image_filename.present? %>
-          <%= image_tag topic.image_filename, alt: topic.name, class: "img-fluid rounded", style: "height: 250px; width: 100%; object-fit: cover;" %>
-
+        <%= link_to topic_path(topic) do %>
+          <%= image_tag topic.image_filename,
+            alt: topic.name,
+            class: "img-fluid rounded clickable-image",
+            style: "height: 250px; width: 100%; object-fit: cover;" %>
         <% end %>
         <h5 class="mt-2"><%= topic.name %></h5>
         <p><%= topic.description %></p>
+        <%= link_to "Edit Topic", edit_topic_path(topic), class: "btn btn-primary" %>
       </div>
     <% end %>
   </div>
