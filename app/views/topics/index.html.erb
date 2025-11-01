@@ -11,7 +11,7 @@
 
 <div class="container mt-4">
   <div class="row justify-content-center">
-    <% @topics.first(3).each do |topic| %>
+    <% @topics.each do |topic| %>
       <div class="col-md-4 text-center mb-4">
         <% if topic.image_filename.present? %>
           <%= image_tag topic.image_filename, alt: topic.name, class: "img-fluid rounded", style: "height: 250px; width: 100%; object-fit: cover;" %>
