@@ -19,8 +19,12 @@
         <h5 class="mt-2"><%= topic.name %></h5>
         <p><%= topic.description %></p>
         <%= link_to "Edit Topic", edit_topic_path(topic), class: "btn btn-primary" %>
+        <%= link_to "Delete Topic", topic_path(topic),
+                    data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this topic?" },
+                    class: "btn btn-sm btn-danger" %>
       </div>
     <% end %>
+
   </div>
 </div>
 
