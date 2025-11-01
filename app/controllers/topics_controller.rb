@@ -28,14 +28,17 @@ class TopicsController < ApplicationController
 
   def update
     @topic = Topic.find(params[:id])
-    @topic.update(topic_params)
-    redirect_to topic_path(@topic)
+    if @topic.update(topic_params)
+      redirect_to topics_path
+    else
+      render :edit
+    end
   end
 
   def destroy
     @topic = Topic.find(params[:id])
     @topic.destroy
-    redirect_to topic_path, status: :see_other
+    redirect_to topics_path, status: :see_other
   end
   # def edit
   #   @topic = Topic.find(params[:id])
