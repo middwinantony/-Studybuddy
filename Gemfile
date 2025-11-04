@@ -53,6 +53,8 @@ gem "devise"
 gem "cloudinary", "~> 1.29"
 gem "activestorage-cloudinary-service"
 gem 'ruby_llm'
+gem 'byebug', group: [:development, :test]
+
 
 group :development, :test do
   gem "dotenv-rails"

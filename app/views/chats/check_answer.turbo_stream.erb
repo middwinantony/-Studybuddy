@@ -1,0 +1,7 @@
+<turbo-stream action="update" target="quiz-result">
+  <template>
+    <div class="mt-2 fw-bold <%= @result == 'Correct' ? 'text-success' : 'text-danger' %>">
+      <%= @result %>
+    </div>
+  </template>
+</turbo-stream>

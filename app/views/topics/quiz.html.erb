@@ -6,6 +6,20 @@
     <p class="fs-5"><%= @question_text %></p>
   </div>
 
+  <%= form_with url: check_answer_path, method: :post, local: true do |f| %>
+    <div class="form-group mt-3">
+      <%= f.label :answer, "Your Answer", class: "form-label" %>
+      <%= f.text_field :answer, class: "form-control text-center", placeholder: "Type your answer here..." %>
+    </div>
+
+    <%= hidden_field_tag :topic_id, @topic.id %>
+    <%= hidden_field_tag :question, @question_text %>
+
+    <div class="mt-4">
+      <%= f.submit "Submit Answer", class: "btn btn-primary btn-lg px-4 py-2 shadow-sm" %>
+    </div>
+  <% end %>
+
   <div class="mt-4">
     <%= link_to "Back to Topics", topics_path, class: "btn btn-secondary btn-lg px-4 py-2 shadow-sm" %>
   </div>

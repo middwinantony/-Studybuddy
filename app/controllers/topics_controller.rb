@@ -1,5 +1,5 @@
 class TopicsController < ApplicationController
-  skip_before_action :authenticate_user!, only: :index
+  skip_before_action :authenticate_user!, only: [:index, :show]
 
   def index
     @topics = Topic.all
@@ -9,12 +9,20 @@ class TopicsController < ApplicationController
     @topic = Topic.find(params[:id])
   end
 
+  def show_answer
+    @topic = Topic.find(params[:id])
+    @question_text = params[:question]
+    @user_answer = params[:user_answer]
+    @result = params[:result]
+    @correct_answer = params[:correct_answer]
+  end
+
   def start_quiz
     @topic = Topic.find(params[:id])
     chat = RubyLLM.chat
     prompt = "Generate a single, simple #{ @topic.name } question suitable for a beginner. Only provide the question, no answers or explanations."
     response = chat.ask(prompt)
-    @question_text = response.content
+    @question_text = response.content || response.text || response["choices"][0]["message"]["content"]
     render "quiz"
   end
 

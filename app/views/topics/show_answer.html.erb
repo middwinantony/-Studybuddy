@@ -1,0 +1,15 @@
+<div class="container mt-5 text-center">
+  <%# <h2 class="display-6 fw-bold mb-4">Your Answer for <%= @topic.name %></h2>
+
+  <div class="card p-4 shadow-sm mb-4">
+    <p class="fs-5"><strong>Question:</strong> <%= @question_text %></p>
+    <p class="fs-5"><strong>Your Answer:</strong> <%= @user_answer %></p>
+    <p class="fs-5"><strong>Result:</strong> <%= @result %></p>
+    <% if @correct_answer.present? %>
+      <p class="lead"><strong>Correct Answer:</strong> <%= @correct_answer %></p>
+    <% end %>
+  </div>
+
+  <%= link_to "Back to Topics", topics_path, class: "btn btn-secondary btn-lg px-4 py-2 shadow-sm" %>
+  <%# <%= link_to "Try Another Question", start_quiz_topic_path(@topic), class: "btn btn-success btn-lg px-4 py-2 shadow-sm" %>
+</div>
