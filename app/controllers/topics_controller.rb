@@ -49,18 +49,6 @@ class TopicsController < ApplicationController
     @topic.destroy
     redirect_to topics_path, status: :see_other
   end
-  # def edit
-  #   @topic = Topic.find(params[:id])
-  # end
-
-  # def update
-  #   @topic = Topic.find(params[:id])
-  #   if @topic.update(topic_params)
-  #     redirect_to topic_path(@topic)
-  #   else
-  #     render :edit
-  #   end
-  # end
 
   private
 
