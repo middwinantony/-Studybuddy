@@ -17,6 +17,17 @@ $success:    $green;
 $info:       $yellow;
 $danger:     $red;
 $warning:    $orange;
+$orange-400: #ffa726;
+
+.btn.custom-orange {
+  background-color: $orange-400;
+  color: white;
+
+  &:hover {
+    background-color: darken($orange-400, 10%);
+    color: white;
+  }
+}
 
 // Buttons & inputs' radius
 $border-radius-sm:            .0625rem;
