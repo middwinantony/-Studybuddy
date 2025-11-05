@@ -1,35 +1,46 @@
-<h1 class="mb-4">Add a New Topic</h1>
 
-<%= form_with(model: @topic, local: true) do |form| %>
-  <% if @topic.errors.any? %>
-    <div class="alert alert-danger">
-      <h2><%= pluralize(@topic.errors.count, "error") %> prevented this topic from being saved:</h2>
-      <ul>
-        <% @topic.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
+<div class="position-relative">
+  <div class="container position-relative" style="z-index: 1;">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+
+        <h1 class="mb-4 text-center">Add a New Topic</h1>
+
+        <%= form_with(model: @topic, local: true) do |form| %>
+          <% if @topic.errors.any? %>
+            <div class="alert alert-danger">
+              <h2><%= pluralize(@topic.errors.count, "error") %> prevented this topic from being saved:</h2>
+              <ul>
+                <% @topic.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="mb-3">
+            <%= form.label :name, "Topic Name", class: "form-label fw-bold" %>
+            <%= form.text_field :name, class: "form-control", placeholder: "e.g. Geography, Math, History" %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :description, "Short Description", class: "form-label fw-bold" %>
+            <%= form.text_area :description, class: "form-control", rows: 3, placeholder: "Describe this topic briefly..." %>
+          </div>
+
+          <div class="mb-4">
+            <%= form.label :image, "Upload Topic Image", class: "form-label fw-bold" %>
+            <%= form.file_field :image, class: "form-control" %>
+            <small class="form-text text-muted">Choose an image to represent this topic.</small>
+          </div>
+
+          <div class="d-flex gap-3">
+            <%= form.submit "Create Topic", class: "btn btn-success px-4" %>
+            <%= link_to "Back to Topics", topics_path, class: "btn btn-secondary" %>
+          </div>
         <% end %>
-      </ul>
+
+      </div>
     </div>
-  <% end %>
-
-  <div class="mb-3">
-    <%= form.label :name, "Topic Name", class: "form-label fw-bold" %>
-    <%= form.text_field :name, class: "form-control", placeholder: "e.g. Geography, Math, History" %>
   </div>
-
-  <div class="mb-3">
-    <%= form.label :description, "Short Description", class: "form-label fw-bold" %>
-    <%= form.text_area :description, class: "form-control", rows: 3, placeholder: "Describe this topic briefly..." %>
-  </div>
-
-  <div class="mb-4">
-    <%= form.label :image, "Upload Topic Image", class: "form-label fw-bold" %>
-    <%= form.file_field :image, class: "form-control" %>
-    <small class="form-text text-muted">Choose an image to represent this topic.</small>
-  </div>
-
-  <div class="d-flex gap-3">
-    <%= form.submit "Create Topic", class: "btn btn-success px-4" %>
-    <%= link_to "Back to Topics", topics_path, class: "btn btn-secondary" %>
-  </div>
-<% end %>
+</div>
