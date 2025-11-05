@@ -12,10 +12,17 @@ class TopicsController < ApplicationController
   def start_quiz
     @topic = Topic.find(params[:id])
     chat = RubyLLM.chat
-    prompt = "Generate a single, simple #{ @topic.name } question suitable for a beginner. Only provide the question, no answers or explanations."
+    prompt = "Generate a single, simple #{@topic.name} question suitable for a beginner. Only provide the question, no answers or explanations."
     response = chat.ask(prompt)
     @question_text = response.content
     render "quiz"
+  end
+
+  def submit_answer
+    @topic = Topic.find(params[:id])
+    params[:answer]
+    @question_text = generate_question(@topic)
+    render :show
   end
 
   def new

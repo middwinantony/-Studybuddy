@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   end
   resources :chats, only: [:show, :new, :create] do
     resources :messages, only: :create
+      resources :topics do
+        post :submit_answer, on: :member
+      end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
