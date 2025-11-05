@@ -1,10 +1,7 @@
 <div class="text-center my-5">
-  <h1 class="display-4 fw-bold text-primary mb-3" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
-    CHOOSE YOUR TOPIC
-  </h1>
 
   <% if user_signed_in? %>
-    <p class="text-center">Welcome back!</p>
+    <h1 class="display-4 fw-bold text-primary mb-3" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">CHOOSE YOUR TOPIC</h2>
   <% else %>
     <p class="text-center">Please sign in.</p>
   <% end %>
@@ -38,7 +35,7 @@
             </div>
           <% end %>
 
-          <h5 class="mt-2"><%= topic.name %></h5>
+          <h3 class="mt-2"><%= topic.name %></h3>
           <p><%= topic.description %></p>
         </div>
       <% end %>
