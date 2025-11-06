@@ -12,4 +12,16 @@ class ChatsController < ApplicationController
 
   def new
   end
+
+  def create
+    @topic = Topic.find(params[:topic_id])
+    @chat = Chat.new(title: "Untitled", model_id: "gpt-4.1-nano")
+    @chat.topic = @topic
+    @chat.user = current_user
+    if @chat.save
+      redirect_to chat_path(@chat)
+    else
+      render :index
+    end
+  end
 end
