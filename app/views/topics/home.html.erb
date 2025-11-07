@@ -10,10 +10,14 @@
     z-index: 0;
   "></div>
 
-
-  <div class="container text-center position-relative" style="z-index: 1;">
+<div class="container text-center position-relative my-5">
+  <!-- Semi-transparent white rectangle -->
+   <div class="pt-5 position-absolute top-0 start-50 translate-middle-x bg-white opacity-25" style="top: 1rem; width: 700px; height: 120px; z-index: 0;"></div>
+  <!-- Foreground content -->
+  <div class="position-relative" style="z-index: 1;">
     <h1 class="fw-bold display-4 text-dark white-glow">Welcome to StudyBuddy!</h1>
-    <p class="lead text-dark white-glow">The app to test your knowledge!</p>
+    <p class="fw-bold lead text-dark white-glow">The app to test your knowledge!</p>
     <%= link_to "See Topics", topics_path, class: "btn btn-primary mt-3" %>
   </div>
+</div>
 </div>
