@@ -24,8 +24,8 @@ english = Topic.create!(name: "English", description: "English words and grammar
 
 chat1 = Chat.create!(user: user1, topic: math)
 
-Message.create!(chat: chat1, sender: "bot", message_text: "What is 2 + 2?")
-Message.create!(chat: chat1, sender: "user", message_text: "4")
-Message.create!(chat: chat1, sender: "bot", message_text: "Correct! Well done!")
+Message.create!(chat: chat1, sender: "bot", message_text: "What is 2 + 2?", role: "assistant")
+Message.create!(chat: chat1, sender: "user", message_text: "4", role: "user")
+Message.create!(chat: chat1, sender: "bot", message_text: "Correct! Well done!", role: "assistant")
 
 puts "Seeded #{User.count} users, #{Topic.count} topics, #{Chat.count} chats, and #{Message.count} messages!"

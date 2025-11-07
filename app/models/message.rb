@@ -2,7 +2,7 @@ class Message < ApplicationRecord
   acts_as_message
 
   belongs_to :chat
-  validates :content, presence: true, if: -> { role == "user" }
+  validates :message_text, presence: true, if: -> { role == "user" }
   validates :role, presence: true
   validates :chat, presence: true
   validate :user_message_limit, if: -> { role == "user" }

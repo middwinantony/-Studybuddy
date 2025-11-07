@@ -44,3 +44,7 @@
     </div>
   </div>
 </div>
+
+<%= simple_form_for(@topic) do |f| %>
+<%= f.input :image, as: :file %>
+<%end%>
