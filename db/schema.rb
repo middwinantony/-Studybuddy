@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_31_003239) do
+ActiveRecord::Schema[7.1].define(version: 2025_11_07_005053) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -63,7 +63,23 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_31_003239) do
     t.bigint "chat_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "model_id"
+    t.integer "input_tokens"
+    t.integer "output_tokens"
+    t.bigint "tool_call_id", null: false
     t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["tool_call_id"], name: "index_messages_on_tool_call_id"
+  end
+
+  create_table "tool_calls", force: :cascade do |t|
+    t.bigint "message_id", null: false
+    t.string "tool_call_id"
+    t.string "name"
+    t.jsonb "arguments"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["message_id"], name: "index_tool_calls_on_message_id"
+    t.index ["tool_call_id"], name: "index_tool_calls_on_tool_call_id"
   end
 
   create_table "topics", force: :cascade do |t|
@@ -95,5 +111,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_31_003239) do
   add_foreign_key "chats", "topics"
   add_foreign_key "chats", "users"
   add_foreign_key "messages", "chats"
+  add_foreign_key "messages", "tool_calls"
+  add_foreign_key "tool_calls", "messages"
   add_foreign_key "topics", "images"
 end

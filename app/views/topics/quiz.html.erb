@@ -6,6 +6,14 @@
     <p class="fs-5"><%= @question_text %></p>
   </div>
 
+  <div class="container my-5">
+    <h2 class="text-center mb-4">Your answer Buddy</h2>
+    <form class="d-flex flex-column gap-3">
+      <textarea class="form-control" rows="4" placeholder="Type your answer here..."></textarea>
+      <button type="submit" class="btn btn-primary align-self-end">Send</button>
+    </form>
+  </div>
+
   <div class="mt-4">
     <%= link_to "Back to Topics", topics_path, class: "btn btn-secondary btn-lg px-4 py-2 shadow-sm" %>
   </div>
