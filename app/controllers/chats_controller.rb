@@ -24,4 +24,7 @@ class ChatsController < ApplicationController
       render :index
     end
   end
+
+  def check_answer
+  end
 end
