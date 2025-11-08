@@ -2,6 +2,7 @@
 
   <!-- Back Button -->
   <%= link_to "← Back to Topics", topics_path, class: "btn btn-outline-secondary mb-4 rounded-pill shadow-sm" %>
+  <%= link_to "← Back to sessions", topic_chats_path(@chat.topic), class: "btn btn-outline-secondary mb-4 rounded-pill shadow-sm" %>
 
   <!-- Header Card -->
   <div class="card shadow-sm border-0 mb-4">
@@ -60,6 +61,24 @@
   </div>
 
   <!-- Chat History -->
+  <%# <h5 class="fw-semibold mb-3 text-secondary">Previous Messages</h5> %>
+  <%# <div id="messages" class="mb-5"> %>
+    <%# <% @chat.messages.each do |message| %> %>
+      <%# <% if message.role == "user" %> %>
+        <%# <div class="d-flex justify-content-end mb-2"> %>
+          <%# <div class="bg-primary text-white px-3 py-2 rounded-3 shadow-sm" style="max-width: 75%;"> %>
+            <%# <%= raw(message.content) %> %>
+          <%# </div> %>
+        <%# </div> %>
+      <%# <% elsif message.role == "assistant" %> %>
+        <%# <div class="d-flex justify-content-start mb-2"> %>
+          <%# <div class="bg-light px-3 py-2 rounded-3 shadow-sm" style="max-width: 75%;"> %>
+            <%# <%= raw(message.content) %> %>
+          <%# </div> %>
+        <%# </div> %>
+      <%# <% end %> %>
+    <%# <% end %> %>
+  <%# </div> %>
 
   <!-- Developer Token Info -->
   <% if Rails.env.development? %>

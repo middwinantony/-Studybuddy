@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     member do
       get :start_quiz
     end
-    resources :chats, only: [:index, :create]
+    resources :chats, only: [:index, :create, :show, :destroy]
   end
 
   resources :chats, only: :show do

@@ -1,6 +1,7 @@
 class ChatsController < ApplicationController
   # before_action :authenticate_user!
   before_action :set_topic, only: [:index, :create]
+  before_action :set_chat, only: [:show, :destroy]
 
   def index
     @chats = current_user.chats.where(topic: @topic)
@@ -23,7 +24,9 @@ class ChatsController < ApplicationController
     if @chat.save
       first_question_prompt = "Generate the first quiz question for the topic #{@topic.name}."
       response = @chat.with_instructions(chat_instructions).ask(first_question_prompt)
-      Message.create!(content: response.content, message_type: "question", role: "assistant", chat: @chat)
+      clean_content = response.content.gsub(/^#{Regexp.escape(instructions)}/, '').strip
+
+      Message.create!(content: clean_content, message_type: "question", role: "assistant", chat: @chat)
       redirect_to chat_path(@chat)
     else
       render :index
@@ -41,7 +44,20 @@ class ChatsController < ApplicationController
     end
   end
 
+  def destroy
+    if @chat.user == current_user
+      @chat.destroy
+      redirect_to topic_chats_path(@chat.topic), notice: "Quiz session deleted successfully."
+    else
+      redirect_to topic_chats_path(@chat.topic), alert: "You are not authorized to delete this session."
+    end
+  end
+
   private
+
+  def set_chat
+    @chat = Chat.find(params[:id])
+  end
 
   def chat_params
     params.require(:chat).permit(:name)
