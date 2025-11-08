@@ -7,13 +7,15 @@
     background-position: center;
     background-repeat: no-repeat;
     opacity: 1;
-    z-index: 0;
-  "></div>
+    z-index: 0;">
+  </div>
 
 
-  <div class="container text-center position-relative" style="z-index: 1;">
-    <h1 class="fw-bold display-4 text-dark white-glow">Welcome to StudyBuddy!</h1>
-    <p class="lead text-dark white-glow">The app to test your knowledge!</p>
-    <%= link_to "See Topics", topics_path, class: "btn btn-primary mt-3" %>
+  <div class="position-relative text-center text-dark" style="min-height: 60vh;">
+    <div class="position-absolute top-0 start-50 translate-middle-x p-4 rounded-bottom shadow" style="background-color: rgba(255, 255, 255, 0.35); width: 100%; max-width: 800px; height: 150px;">
+      <h1 class="fw-bold display-4 white-glow">Welcome to StudyBuddy!</h1>
+      <p class="lead fw-bold white-glow">The app to test your knowledge!</p>
+      <%= link_to "See Topics", topics_path, class: "btn btn-primary mt-3 px-4 py-2" %>
+    </div>
   </div>
 </div>

@@ -24,9 +24,8 @@ class ChatsController < ApplicationController
     if @chat.save
       first_question_prompt = "Generate the first quiz question for the topic #{@topic.name}."
       response = @chat.with_instructions(chat_instructions).ask(first_question_prompt)
-      clean_content = response.content.gsub(/^#{Regexp.escape(instructions)}/, '').strip
 
-      Message.create!(content: clean_content, message_type: "question", role: "assistant", chat: @chat)
+      Message.create!(content: response.content, message_type: "question", role: "assistant", chat: @chat)
       redirect_to chat_path(@chat)
     else
       render :index
