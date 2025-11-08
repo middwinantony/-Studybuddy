@@ -10,7 +10,7 @@
       <div>
         <h2 class="fw-bold mb-1 text-primary"><%= @chat.title.presence || "Untitled Session" %></h2>
         <p class="mb-1 text-muted">
-          Question <%= @chat.messages.where(role: "assistant", message_type: "question").count %> of 5
+          Question <%= @chat.messages.where(role: "assistant", message_type: "question").count %> of 10
         </p>
 
         <% if @chat.attempts.to_i > 0 %>
