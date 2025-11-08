@@ -6,9 +6,11 @@ Rails.application.routes.draw do
     member do
       get :start_quiz
     end
+    resources :chats, only: [:index, :create, :show, :destroy]
   end
-  resources :chats, only: [:show, :new, :create] do
-    resources :messages, only: :create
+
+  resources :chats, only: :show do
+    resources :messages, only: [:create]
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
