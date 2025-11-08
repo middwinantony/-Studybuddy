@@ -6,7 +6,7 @@ class MessagesController < ApplicationController
     @message.chat = @chat
 
     if @message.valid?
-    # Ask AI and persist assistant response automatically
+      # Ask AI and persist assistant response automatically
       @chat.with_instructions(instructions).ask(@message.content)
 
       # Generate next question if under limit
@@ -16,8 +16,8 @@ class MessagesController < ApplicationController
           Make sure it's different from previous questions.
         PROMPT
 
-        next_question = @chat.with_instructions("You are Studybuddy AI. Provide beginner-friendly questions.").ask(next_prompt)
-        Message.create!(chat: @chat, role: "assistant", content: next_question.content)
+        @chat.with_instructions("You are Studybuddy AI. Provide beginner-friendly questions.").ask(next_prompt)
+        # Message.create!(chat: @chat, role: "assistant", content: next_question.content)
       end
 
       redirect_to chat_path(@chat)
@@ -33,7 +33,11 @@ class MessagesController < ApplicationController
   end
 
   def instructions
-    topic_name = @chat.topic.name rescue "General Knowledge"
+    topic_name = begin
+      @chat.topic.name
+    rescue StandardError
+      "General Knowledge"
+    end
     <<~PROMPT
       You are Studybuddy AI, an interactive quiz bot.
       The topic of this quiz is "#{topic_name}".
