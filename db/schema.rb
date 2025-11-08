@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_08_142042) do
+ActiveRecord::Schema[7.1].define(version: 2025_11_08_194341) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -74,6 +74,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_08_142042) do
     t.bigint "tool_call_id"
     t.string "role"
     t.text "content"
+    t.string "message_type"
     t.index ["chat_id"], name: "index_messages_on_chat_id"
     t.index ["tool_call_id"], name: "index_messages_on_tool_call_id"
   end

@@ -8,6 +8,7 @@ class ChatsController < ApplicationController
   end
 
   def create
+    @topic = Topic.find(params[:topic_id])
     @chat = Chat.new(
       name: chat_params[:name],
       title: chat_params[:name].presence || "Untitled",
@@ -15,16 +16,14 @@ class ChatsController < ApplicationController
       user: current_user,
       topic: @topic
     )
-    @topic = Topic.find(params[:topic_id])
-    @chat = Chat.new(title: "Untitled", model_id: "gpt-4.1-nano", user: current_user, topic: @topic)
-    @chat.topic = @topic
-    @chat.user = current_user
+    # @chat = Chat.new(title: "Untitled", model_id: "gpt-4.1-nano", user: current_user, topic: @topic)
+    # @chat.topic = @topic
+    # @chat.user = current_user
 
     if @chat.save
       first_question_prompt = "Generate the first quiz question for the topic #{@topic.name}."
-      @chat.with_instructions(chat_instructions).ask(first_question_prompt)
-      # Message.create(content: response.content, role: "assistant", chat: @chat)
-
+      response = @chat.with_instructions(chat_instructions).ask(first_question_prompt)
+      Message.create!(content: response.content, message_type: "question", role: "assistant", chat: @chat)
       redirect_to chat_path(@chat)
     else
       render :index

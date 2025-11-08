@@ -1,16 +1,17 @@
-
-<!-- Back Button -->
 <div class="container py-4">
-  <%= link_to "← Back to Topics", topic_chats_path(@chat.topic), class: "btn btn-outline-secondary mb-4 rounded-pill shadow-sm" %>
 
-  <!-- Chat Header -->
+  <!-- Back Button -->
+  <%= link_to "← Back to Topics", topics_path, class: "btn btn-outline-secondary mb-4 rounded-pill shadow-sm" %>
+
+  <!-- Header Card -->
   <div class="card shadow-sm border-0 mb-4">
     <div class="card-body d-flex justify-content-between align-items-center flex-wrap">
       <div>
         <h2 class="fw-bold mb-1 text-primary"><%= @chat.title.presence || "Untitled Session" %></h2>
         <p class="mb-1 text-muted">
-          Question <%= @chat.messages.where(role: "assistant").count %> of 5
+          Question <%= @chat.messages.where(role: "assistant", message_type: "question").count %> of 5
         </p>
+
         <% if @chat.attempts.to_i > 0 %>
           <p class="text-muted small mb-0">
             <strong>Score:</strong>
@@ -22,29 +23,27 @@
         <% end %>
       </div>
 
-      <div class="text-end">
-        <span class="badge bg-light text-dark px-3 py-2 fs-6 shadow-sm">
-          🧠 Topic: <%= @chat.topic.name %>
-        </span>
-      </div>
+      <span class="badge bg-light text-dark px-3 py-2 fs-6 shadow-sm">
+        🧠 Topic: <%= @chat.topic.name %>
+      </span>
     </div>
   </div>
 
-  <!-- Current AI Question -->
+  <!-- Current Question -->
   <% latest_ai_message = @chat.messages.where(role: "assistant").last %>
   <div class="card shadow-sm border-0 mb-4">
     <div class="card-body bg-light rounded-3">
       <h5 class="fw-semibold mb-2 text-secondary">💬 Current Question</h5>
-      <% if latest_ai_message %>
+      <% if latest_ai_message && !latest_ai_message.content.match?(/Generate the next/i) %>
         <p class="fs-5 mb-0"><%= raw(latest_ai_message.content) %></p>
       <% else %>
-        <p class="fs-6 text-muted mb-0">No question yet. Ask the AI to generate one.</p>
+        <p class="fs-6 text-muted mb-0">No question yet. Start the quiz to get your first one!</p>
       <% end %>
     </div>
   </div>
 
   <!-- Answer Form -->
-  <div class="card border-0 shadow-sm mb-4">
+  <div class="card border-0 shadow-sm mb-5">
     <div class="card-body">
       <%= simple_form_for [@chat, @message] do |f| %>
         <div class="mb-3">
@@ -54,36 +53,20 @@
                       placeholder: "Type your answer here...",
                       input_html: { class: "form-control form-control-lg" } %>
         </div>
-        <%= f.button :submit, "Submit Answer", class: "btn btn-primary btn-lg rounded-pill shadow-sm px-4" %>
+        <%= f.button :submit, "Submit Answer",
+                      class: "btn btn-primary btn-lg rounded-pill shadow-sm px-4" %>
       <% end %>
     </div>
   </div>
 
   <!-- Chat History -->
-  <h5 class="fw-semibold mb-3 text-secondary">📜 Previous Messages</h5>
-  <div id="messages" class="mb-5">
-    <% @chat.messages.each do |message| %>
-      <% if message.role == "user" %>
-        <div class="d-flex justify-content-end mb-2">
-          <div class="bg-primary text-white px-3 py-2 rounded-3 shadow-sm" style="max-width: 75%;">
-            <%= raw(message.content) %>
-          </div>
-        </div>
-      <% elsif message.role == "assistant" %>
-        <div class="d-flex justify-content-start mb-2">
-          <div class="bg-light px-3 py-2 rounded-3 shadow-sm" style="max-width: 75%;">
-            <%= raw(message.content) %>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-  </div>
 
-  <!-- Developer Info (Only in Dev Mode) -->
+  <!-- Developer Token Info -->
   <% if Rails.env.development? %>
     <div class="text-end text-muted small">
       Input tokens: <%= @chat.messages.map(&:input_tokens).compact.sum %> |
       Output tokens: <%= @chat.messages.map(&:output_tokens).compact.sum %>
     </div>
   <% end %>
+
 </div>
