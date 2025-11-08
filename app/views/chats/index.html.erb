@@ -1,0 +1,17 @@
+<h1>Quiz Sessions for <%= @topic.name %></h1>
+
+<div class="mb-4">
+  <% if @chats.any? %>
+    <ul>
+      <% @chats.each do |chat| %>
+        <li><%= link_to chat.title, chat_path(chat) %> – Score: <%= chat.score || 0 %>/<%= chat.attempts || 0 %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No sessions yet.</p>
+  <% end %>
+</div>
+
+<%= simple_form_for [@topic, @chat] do |f| %>
+  <%= f.button :submit, "Start New Session", class: "btn btn-primary" %>
+<% end %>

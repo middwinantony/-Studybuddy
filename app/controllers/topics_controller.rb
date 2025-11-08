@@ -11,11 +11,28 @@ class TopicsController < ApplicationController
 
   def start_quiz
     @topic = Topic.find(params[:id])
-    chat = RubyLLM.chat
-    prompt = "Generate a single, simple #{ @topic.name } question suitable for a beginner. Only provide the question, no answers or explanations."
-    response = chat.ask(prompt)
-    @question_text = response.content
-    render "quiz"
+
+    # Create a new Chat for this quiz
+    @chat = Chat.create!(
+      title: "Quiz on #{@topic.name}",
+      model_id: "gpt-4.1-nano",
+      user: current_user,
+      topic: @topic
+    )
+
+    # Generate the first AI question automatically
+    initial_prompt = <<~PROMPT
+      You are a quiz generator. Generate a beginner-friendly quiz question for the topic: #{@topic.name}.
+      Format the question as plain text.
+    PROMPT
+
+    # Use RubyLLM to generate the question and save as assistant message
+    if @chat.present?
+      response = @chat.with_instructions("You are Studybuddy AI. Provide beginner-friendly questions.").ask(initial_prompt)
+      Message.create!(chat: @chat, role: "assistant", content: response.content)
+    end
+
+    redirect_to chat_path(@chat)
   end
 
   def new

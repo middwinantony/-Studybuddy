@@ -1,5 +1,73 @@
-<% @chat.messages.each do |message| %>
-  <%= message.sender %>
-  <%= message.message_text %>
+<%= link_to "← Back to Topics", topic_chats_path(@chat.topic), class: "btn btn-secondary mb-3" %>
+
+<div class="container mt-4">
+
+  <!-- Chat / Quiz Title -->
+  <div id="chat_title" class="mb-4">
+    <h2 class="fw-bold"><%= @chat.title %></h2>
+
+    <% score = @chat.score.to_i %>
+    <% attempts = @chat.attempts.to_i %>
+    <p>
+      Question <%= @chat.messages.where(role: "assistant").count %> of 5
+    </p>
+    <% if @chat.attempts.to_i > 0 %>
+      <p class="text-muted">
+        Score: <%= ((@chat.score.to_f / @chat.attempts) * 100).round %>%
+        (<%= @chat.score %> / <%= @chat.attempts %>)
+      </p>
+    <% else %>
+      <p class="text-muted">Score: 0%</p>
+    <% end %>
+  </div>
+
+  <!-- Current AI Question -->
+  <% latest_ai_message = @chat.messages.where(role: "assistant").last %>
+  <% if latest_ai_message %>
+    <div class="card p-3 mb-4 bg-light">
+      <strong>AI Question:</strong>
+      <p class="fs-5"><%= raw(latest_ai_message.content) %></p>
+    </div>
+  <% else %>
+    <div class="card p-3 mb-4 bg-light">
+      <p class="fs-5">No question yet. Ask the AI to generate one.</p>
+    </div>
+  <% end %>
+
+  <!-- Answer Form -->
+  <div id="new_message" class="mb-4">
+    <%= simple_form_for [@chat, @message] do |f| %>
+      <%= f.input :content, label: "Your Answer", required: true, placeholder: "Type your answer here...", input_html: { class: "form-control" } %>
+      <%= f.button :submit, 'Submit Answer', class: 'btn btn-primary mt-2' %>
+    <% end %>
+  </div>
+
+  <!-- Previous Messages -->
   <hr>
-<% end %>
+  <div id="messages">
+    <% @chat.messages.each do |message| %>
+      <% if message.role == "user" %>
+        <div class="d-flex justify-content-end mb-2">
+          <div class="bg-primary text-white px-3 py-2 rounded-pill">
+            <%= raw(message.content) %>
+          </div>
+        </div>
+      <% elsif message.role == "assistant" %>
+        <div class="d-flex justify-content-start mb-2">
+          <div class="bg-light px-3 py-2 rounded-pill">
+            <%= raw(message.content) %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <!-- Development Token Info (optional) -->
+  <% if Rails.env.development? %>
+    <div class="mt-3 text-end text-muted">
+      Input tokens: <%= @chat.messages.map(&:input_tokens).compact.sum %> |
+      Output tokens: <%= @chat.messages.map(&:output_tokens).compact.sum %>
+    </div>
+  <% end %>
+
+</div>
