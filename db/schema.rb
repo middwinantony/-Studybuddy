@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_08_010736) do
+ActiveRecord::Schema[7.1].define(version: 2025_11_08_142042) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +51,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_08_010736) do
     t.string "model_id"
     t.integer "score", default: 0
     t.integer "attempts", default: 0
+    t.string "name"
     t.index ["topic_id"], name: "index_chats_on_topic_id"
     t.index ["user_id"], name: "index_chats_on_user_id"
   end

@@ -1,17 +1,55 @@
-<h1>Quiz Sessions for <%= @topic.name %></h1>
+<div class="container py-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold mb-0">🎯 Quiz Sessions for <%= @topic.name %></h1>
+  </div>
 
-<div class="mb-4">
-  <% if @chats.any? %>
-    <ul>
-      <% @chats.each do |chat| %>
-        <li><%= link_to chat.title, chat_path(chat) %> – Score: <%= chat.score || 0 %>/<%= chat.attempts || 0 %></li>
+  <!-- Start New Session Card -->
+  <div class="card shadow-sm border-0 mb-5">
+    <div class="card-body">
+      <h5 class="card-title fw-semibold mb-3">Start a New Quiz Session</h5>
+      <%= simple_form_for [@topic, @chat], html: { class: "row g-3 align-items-end" } do |f| %>
+        <div class="col-md-8">
+          <%= f.input :name, label: "Session Name", placeholder: "e.g. Finance Practice Set #1", input_html: { class: "form-control" } %>
+        </div>
+        <div class="col-md-4">
+          <%= f.button :submit, "➕ Start New Session", class: "btn btn-primary btn-lg shadow-sm w-100" %>
+        </div>
       <% end %>
-    </ul>
+    </div>
+  </div>
+
+  <!-- Quiz Sessions List -->
+  <% if @chats.any? %>
+    <div class="row">
+      <% @chats.each do |chat| %>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+              <h5 class="card-title text-primary fw-semibold">
+                <%= link_to (chat.name.presence || chat.title), chat_path(chat), class: "text-decoration-none text-primary" %>
+              </h5>
+
+              <p class="card-text mb-2 text-muted">
+                <i class="bi bi-calendar-event"></i>
+                <%= chat.created_at.strftime("%B %d, %Y") %>
+              </p>
+
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <span class="badge bg-light text-dark">
+                  <strong>Score:</strong>
+                  <%= chat.score || 0 %> / <%= chat.attempts || 0 %>
+                </span>
+                <%= link_to "View Session", chat_path(chat), class: "btn btn-outline-primary btn-sm" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
   <% else %>
-    <p>No sessions yet.</p>
+    <div class="alert alert-info text-center shadow-sm mt-4">
+      <p class="mb-0">No quiz sessions yet. Start your first one above!</p>
+    </div>
   <% end %>
 </div>
-
-<%= simple_form_for [@topic, @chat] do |f| %>
-  <%= f.button :submit, "Start New Session", class: "btn btn-primary" %>
-<% end %>

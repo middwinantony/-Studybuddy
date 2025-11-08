@@ -8,6 +8,13 @@ class ChatsController < ApplicationController
   end
 
   def create
+    @chat = Chat.new(
+      name: chat_params[:name],
+      title: chat_params[:name].presence || "Untitled",
+      model_id: "gpt-4.1-nano",
+      user: current_user,
+      topic: @topic
+    )
     @topic = Topic.find(params[:topic_id])
     @chat = Chat.new(title: "Untitled", model_id: "gpt-4.1-nano", user: current_user, topic: @topic)
     @chat.topic = @topic
@@ -15,8 +22,8 @@ class ChatsController < ApplicationController
 
     if @chat.save
       first_question_prompt = "Generate the first quiz question for the topic #{@topic.name}."
-      response = @chat.with_instructions(instructions).ask(first_question_prompt)
-      Message.create(content: response.content, role: "assistant", chat: @chat)
+      @chat.with_instructions(chat_instructions).ask(first_question_prompt)
+      # Message.create(content: response.content, role: "assistant", chat: @chat)
 
       redirect_to chat_path(@chat)
     else
@@ -37,7 +44,15 @@ class ChatsController < ApplicationController
 
   private
 
+  def chat_params
+    params.require(:chat).permit(:name)
+  end
+
   def set_topic
     @topic = Topic.find(params[:topic_id])
+  end
+
+  def chat_instructions
+    "You are a quiz master who generates questions one by one related to the selected topic."
   end
 end
