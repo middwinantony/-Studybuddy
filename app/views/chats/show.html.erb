@@ -10,7 +10,7 @@
       <div>
         <h2 class="fw-bold mb-1 text-primary"><%= @chat.title.presence || "Untitled Session" %></h2>
         <p class="mb-1 text-muted">
-          Question <%= @chat.messages.where(role: "assistant", message_type: "question").count %> of 10
+          Question <%= @chat.messages.where(role: "assistant", message_type: "question").count %> of <%= @chat.class::MAX_QUESTIONS %>
         </p>
 
         <% if @chat.attempts.to_i > 0 %>
@@ -31,17 +31,26 @@
   </div>
 
   <!-- Current Question -->
-  <% latest_ai_message = @chat.messages.where(role: "assistant").last %>
+  <% latest_question = @chat.messages.where(role: "assistant", message_type: "question").last %>
+  <% latest_feedback = @chat.messages.where(role: "assistant", message_type: "feedback").last %>
   <div class="card shadow-sm border-0 mb-4">
     <div class="card-body bg-light rounded-3">
       <h5 class="fw-semibold mb-2 text-secondary">💬 Current Question</h5>
-      <% if latest_ai_message && !latest_ai_message.content.match?(/Generate the next/i) %>
-        <p class="fs-5 mb-0"><%= raw(latest_ai_message.content) %></p>
+      <% if latest_question %>
+        <p class="fs-5 mb-0"><%= raw(latest_question.content) %></p>
       <% else %>
         <p class="fs-6 text-muted mb-0">No question yet. Start the quiz to get your first one!</p>
       <% end %>
     </div>
   </div>
+
+  <!-- Latest Feedback -->
+  <% if latest_feedback && latest_feedback.created_at > (latest_question&.created_at || Time.at(0)) %>
+    <div class="alert <%= latest_feedback.content.start_with?('Correct!') ? 'alert-success' : 'alert-warning' %> mb-4">
+      <strong><%= latest_feedback.content.start_with?('Correct!') ? '✅ ' : '❌ ' %></strong>
+      <%= raw(latest_feedback.content) %>
+    </div>
+  <% end %>
 
   <!-- Answer Form -->
   <div class="card border-0 shadow-sm mb-5">

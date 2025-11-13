@@ -23,9 +23,13 @@ class ChatsController < ApplicationController
 
     if @chat.save
       first_question_prompt = "Generate the first quiz question for the topic #{@topic.name}."
-      response = @chat.with_instructions(chat_instructions).ask(first_question_prompt)
+      @chat.with_instructions(chat_instructions).ask(first_question_prompt)
 
-      Message.create!(content: response.content, message_type: "question", role: "assistant", chat: @chat)
+      # Force reload the entire chat to get fresh messages
+      @chat.reload
+      # Mark ALL untyped assistant messages as questions (handles duplicates)
+      @chat.messages.where(role: "assistant", message_type: [nil, ""]).update_all(message_type: "question")
+
       redirect_to chat_path(@chat)
     else
       render :index
@@ -34,6 +38,8 @@ class ChatsController < ApplicationController
 
   def show
     @chat = Chat.includes(:messages).find(params[:id])
+    # Ensure we have fresh message data from database
+    @chat.messages.reload
     @message = Message.new
 
     if Rails.env.development?

@@ -21,15 +21,16 @@ class TopicsController < ApplicationController
     )
 
     # Generate the first AI question automatically
-    initial_prompt = <<~PROMPT
-      You are a quiz generator. Generate a beginner-friendly quiz question for the topic: #{@topic.name}.
-      Format the question as plain text.
-    PROMPT
+    first_question_prompt = "Generate the first quiz question for the topic #{@topic.name}."
 
-    # Use RubyLLM to generate the question and save as assistant message
+    # Use RubyLLM to generate the question (it saves messages automatically)
     if @chat.present?
-      response = @chat.with_instructions("You are Studybuddy AI. Provide beginner-friendly questions.").ask(initial_prompt)
-      Message.create!(chat: @chat, role: "assistant", content: response.content)
+      @chat.with_instructions("You are a quiz master who generates questions one by one related to the selected topic.").ask(first_question_prompt)
+
+      # Force reload the entire chat to get fresh messages
+      @chat.reload
+      # Mark ALL untyped assistant messages as questions (handles duplicates)
+      @chat.messages.where(role: "assistant", message_type: [nil, ""]).update_all(message_type: "question")
     end
 
     redirect_to chat_path(@chat)

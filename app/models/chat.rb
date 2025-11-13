@@ -21,18 +21,17 @@ class Chat < ApplicationRecord
   end
 
   def score
-    self[:score] || 0
-    # Example: 1 point per correct message
-    messages.where(role: "assistant").count { |m| m.content.include?("Correct") }
+    # Count feedback messages that start with "Correct!" (not "Incorrect")
+    messages.where(role: "assistant", message_type: "feedback").count { |m| m.content.strip.start_with?("Correct!") }
   end
 
   def attempts
-    self[:attempts] || 0
-    # Count only user messages as attempts
-    messages.where(role: "user").count
+    # Count only user answer messages (not system prompts)
+    messages.where(role: "user", message_type: "answer").count
   end
 
   def questions_remaining?
-    messages.where(role: "assistant").count < MAX_QUESTIONS
+    # Only count question messages, not feedback messages
+    messages.where(role: "assistant", message_type: "question").count < MAX_QUESTIONS
   end
 end

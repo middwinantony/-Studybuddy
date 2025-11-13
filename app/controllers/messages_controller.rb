@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
   def create
     @chat = Chat.find(params[:chat_id])
-    @message = @chat.messages.new(message_params.merge(role: "user"))
+    @message = @chat.messages.new(message_params.merge(role: "user", message_type: "answer"))
 
     # @message = Message.new(message_params)
     # @message.role = "user"
@@ -47,17 +47,40 @@ class MessagesController < ApplicationController
   #   PROMPT
   # end
   if @message.save
-      # 1️⃣ Get feedback to user’s answer
+      # 1️⃣ Get feedback on user's answer
       feedback_prompt = <<~PROMPT
         The user answered: "#{@message.content}".
-        Evaluate if it’s correct for the previous question.
-        Respond with:
-        - “Correct!” if right, or “Incorrect. The correct answer is …”
-        - Then immediately give the next question (if under 5 total).
+        Evaluate if it's correct for the previous question.
+        Respond ONLY with:
+        - "Correct! [brief explanation]" if right
+        - "Incorrect. The correct answer is [answer]. [brief explanation]" if wrong
       PROMPT
 
-      response = @chat.ask(feedback_prompt)
-      Message.create!(chat: @chat, role: "assistant",  message_type: "question", content: response.content)
+      # Remember the last assistant message ID before generating feedback
+      last_msg_id_before_feedback = @chat.messages.where(role: "assistant").maximum(:id) || 0
+
+      @chat.ask(feedback_prompt)
+      @chat.reload
+
+      # Mark new assistant messages (after last_msg_id) as feedback
+      @chat.messages.where(role: "assistant", message_type: [nil, ""])
+                    .where("id > ?", last_msg_id_before_feedback)
+                    .update_all(message_type: "feedback")
+
+      # 2️⃣ Generate next question if under MAX_QUESTIONS
+      if @chat.questions_remaining?
+        # Remember the last assistant message ID before generating question
+        last_msg_id_before_question = @chat.messages.where(role: "assistant").maximum(:id) || 0
+
+        next_question_prompt = "Generate the next quiz question for the topic #{@chat.topic.name}. Make it different from previous questions."
+        @chat.with_instructions("You are a quiz master who generates questions one by one related to the selected topic.").ask(next_question_prompt)
+        @chat.reload
+
+        # Mark new assistant messages (after last_msg_id) as questions
+        @chat.messages.where(role: "assistant", message_type: [nil, ""])
+                      .where("id > ?", last_msg_id_before_question)
+                      .update_all(message_type: "question")
+      end
 
       redirect_to chat_path(@chat)
     else
